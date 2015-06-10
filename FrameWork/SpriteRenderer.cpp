@@ -7,7 +7,7 @@ SpriteRenderer::SpriteRenderer(int width, int height)
 	shader = new Shader("VertexShader.shader", "FragmentShader.shader");
 
 	//set orthographic projection matrix
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(width), static_cast<GLfloat>(height), 0.0f, -1.0f, 1.0f);
+	projection = MathLib::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
 
 	shader->SetIntager("inTexture", 0);
 	shader->SetMat4("projection", projection);
@@ -15,12 +15,11 @@ SpriteRenderer::SpriteRenderer(int width, int height)
 	//array of verticies for our rectangle
 	GLfloat verticies[] =
 	{   //position		//texture UVs
-		0.0f, 1.0f,		0.0f, 1.0f, 
-		1.0f, 1.0f,		1.0f, 1.0f, 
-		1.0f, 0.0f,		1.0f, 0.0f, 
-		0.0f, 0.0f,		0.0f, 0.0f	
+		0.0f, 1.0f,		0.0f, 1.0f,
+		1.0f, 1.0f,		1.0f, 1.0f,
+		1.0f, 0.0f,		1.0f, 0.0f,
+		0.0f, 0.0f,		0.0f, 0.0f
 	};
-
 
 	//tell it how to draw a rectangle
 	GLuint indices[] =
@@ -73,40 +72,39 @@ SpriteRenderer::~SpriteRenderer()
 }
 float j;
 
-void SpriteRenderer::DrawSprite(Texture* a_texture, GLfloat x, GLfloat y, GLfloat a_width, GLfloat a_height, GLfloat a_rotate, glm::vec3 a_colour)
+void SpriteRenderer::DrawSprite(Texture* a_texture, GLfloat x, GLfloat y, GLfloat a_width, GLfloat a_height, GLfloat a_rotate, MathLib::vec3 a_colour)
 {
 	//set shader to use
 	this->shader->Use();
 
 	//create model matrix
-	glm::mat4 model;
+	MathLib::mat4 model;
 
 	//set model matrix to current draw position
-	model = glm::translate(model, glm::vec3(x, y, 0.0f));
-	
-	//set origin to center of object
-	model = glm::translate(model, glm::vec3(0.5f * a_width, 0.5 * a_height, 0.0f));
-	//rotate object
-	model = glm::rotate(model, glm::radians(a_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
-	//set origin back to top left
-	model = glm::translate(model, glm::vec3(-0.5f * a_width, -0.5 * a_height, 0.0f));
-	
-	//scale object
-	model = glm::scale(model, glm::vec3(a_width, a_height, 1.0f));
+	model = MathLib::translate(model, MathLib::vec3(x, y, 0.0f));
 
+	//set origin to center of object
+	model = MathLib::translate(model, MathLib::vec3(0.5f * a_width, 0.5f * a_height, 0.0f));
+	//rotate object
+	model = MathLib::rotate(model, a_rotate, MathLib::vec3(0.0f, 0.0f, 1.0f));
+	//set origin back to top left
+	model = MathLib::translate(model, MathLib::vec3(-0.5f * a_width, -0.5f * a_height, 0.0f));
+
+	//scale object
+	model = MathLib::scale(model, MathLib::vec3(a_width, a_height, 1.0f));
 
 	//create texture UV matrix
-	glm::mat4 texUV;
-
+	MathLib::mat4 texUV;
+	
 	//translate and scale texture coordinates
-	texUV = glm::translate(texUV, glm::vec3(0.0, 0.0, 0.0));
-	texUV = glm::scale(texUV, glm::vec3(1.0, 1.0, 0.0));
+	texUV = MathLib::translate(texUV, MathLib::vec3(0.0, 0.0, 0.0));
+	texUV = MathLib::scale(texUV, MathLib::vec3(1.0, 1.0, 0.0));
 
-	 //pass transform matrixes and sprite colour to shaders
-	this->shader->SetMat4("model", model);	
+
+	//pass transform matrixes and sprite colour to shaders
+	this->shader->SetMat4("model", model);
 	this->shader->SetMat4("texSource", texUV);
 	this->shader->SetVec3("spriteColour", a_colour);
-
 
 	//binds default texture unit
 	glActiveTexture(GL_TEXTURE0);
@@ -120,6 +118,38 @@ void SpriteRenderer::DrawSprite(Texture* a_texture, GLfloat x, GLfloat y, GLfloa
 	glBindVertexArray(0);
 
 
+}
+
+void SpriteRenderer::DrawSpriteMat4(Texture* a_texture, MathLib::Mat4 a_transform, MathLib::Mat4 a_texCoods, MathLib::vec3 a_colour)
+{
+
+	//set shader to use
+	this->shader->Use();
+
+	//pass transform matrixes and sprite colour to shaders
+	this->shader->SetMat4("model", a_transform);
+	this->shader->SetMat4("texSource", a_texCoods);
+	this->shader->SetVec3("spriteColour", a_colour);
+
+	//binds default texture unit
+	glActiveTexture(GL_TEXTURE0);
+	//bind texture to active unit
+	a_texture->Bind();
+
+	//draw
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void SpriteRenderer::DrawLight(GLfloat x, GLfloat y)
+{
+	this->shader->SetVec2("lightLocation", MathLib::vec2(x, y));
+}
+
+void SpriteRenderer::DrawLight2(GLfloat x, GLfloat y)
+{
+	this->shader->SetVec2("lightLocation2", MathLib::vec2(x, y));
 }
 
 void* SpriteRenderer::operator new(size_t i)

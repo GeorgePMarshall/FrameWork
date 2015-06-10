@@ -12,6 +12,6 @@ uniform mat4 texSource;
 
 void main()
 {
-	texCoord = ( texSource * vec4(inTexCoord.xy, 0.0, 1.0)).xy;
+	texCoord = (texSource * vec4(inTexCoord.xy, 0.0, 1.0)).xy;
 	gl_Position = projection * model * vec4(position, 0.0, 1.0);
 }

@@ -1,2 +1,0 @@
-# Framework
-OpenGL Framework

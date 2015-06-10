@@ -22,7 +22,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 void ScreenResizeCallback(GLFWwindow* window, int width, int height);
 
 //starting Screen Resolution
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint WIDTH = 1200, HEIGHT = 720;
 
 GLboolean showFps = GL_TRUE;
 GLboolean vSync = GL_TRUE;
@@ -37,6 +37,7 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, 16);
 
 	//Create Window
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL MotherFuckers", nullptr, nullptr); //glfwGetPrimaryMonitor(), nullptr);
@@ -61,6 +62,7 @@ int main()
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_MULTISAMPLE);
 	glfwSwapInterval(vSync); //v-sync leave on or gpu noise
 
 	//Set callbacks
@@ -106,7 +108,7 @@ int main()
 		game->Update(deltaTime);
 		
 		//Clear then Draw
-		glClearColor(0.05f, 0.5f, 0.2f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		game->Draw();
 		glfwSwapBuffers(window);
@@ -127,12 +129,11 @@ void KeyCallback(GLFWwindow* a_window, int a_key, int a_scancode, int a_action, 
 	if (a_key >= 0 && a_key < 1024)
 	{
 		if (a_action == GLFW_PRESS)
-			game->Keys[a_key] = GL_TRUE;
+			game->Keys[a_key] = true;
 		else if (a_action == GLFW_RELEASE)
-		{
-			game->Keys[a_key] = GL_FALSE;
+			game->Keys[a_key] = false;
 
-		}
+		
 	}
 }
 

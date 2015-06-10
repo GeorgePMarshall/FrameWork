@@ -102,25 +102,25 @@ void Shader::SetIntager(const char* a_name, GLint a_value)
 	glUniform1i(glGetUniformLocation(this->shaderProgram, a_name), a_value);
 }
 
-void Shader::SetMat4(const char* a_name, const glm::mat4 &a_value)
+void Shader::SetMat4(const char* a_name, MathLib::mat4 &a_value)
 {
 	this->Use();
-	glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, a_name), 1, GL_FALSE, glm::value_ptr(a_value));
+	glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, a_name), 1, GL_TRUE, a_value.GetArray());
 }
 
-void Shader::SetVec4(const char* a_name, const glm::vec4 &a_value)
+void Shader::SetVec4(const char* a_name, const MathLib::vec4 &a_value)
 {
 	this->Use();
 	glUniform4f(glGetUniformLocation(this->shaderProgram, a_name), a_value.x, a_value.y, a_value.z, a_value.w);
 }
 
-void Shader::SetVec3(const char* a_name, const glm::vec3 &a_value)
+void Shader::SetVec3(const char* a_name, const MathLib::vec3 &a_value)
 {
 	this->Use();
 	glUniform3f(glGetUniformLocation(this->shaderProgram, a_name), a_value.x, a_value.y, a_value.z);
 }
 
-void Shader::SetVec2(const char* a_name, const glm::vec2 &a_value)
+void Shader::SetVec2(const char* a_name, const MathLib::vec2 &a_value)
 {
 	this->Use();
 	glUniform2f(glGetUniformLocation(this->shaderProgram, a_name), a_value.x, a_value.y);

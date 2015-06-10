@@ -7,8 +7,8 @@
 #include <iostream>
 
 #include <GL/glew.h>
-#include <glm\glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <MathLib\Matrix.h>
+#include <MathLib\Vector.h>
 
 using namespace std;
 
@@ -23,11 +23,11 @@ public:
 
 	void SetIntager(const char* a_name, GLint a_value);
 
-	void SetMat4(const char* a_name, const glm::mat4 &a_value);
+	void SetMat4(const char* a_name, MathLib::mat4 &a_value);
 
-	void SetVec4(const char* a_name, const glm::vec4 &a_value);
-	void SetVec3(const char* a_name, const glm::vec3 &a_value);
-	void SetVec2(const char* a_name, const glm::vec2 &a_value);
+	void SetVec4(const char* a_name, const MathLib::vec4 &a_value);
+	void SetVec3(const char* a_name, const MathLib::vec3 &a_value);
+	void SetVec2(const char* a_name, const MathLib::vec2 &a_value);
 
 	//Use the program
 	void Use();

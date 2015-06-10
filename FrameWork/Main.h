@@ -6,6 +6,9 @@
 #include <GLFW/glfw3.h>
 #include "SpriteRenderer.h"
 #include "Texture.h"
+#include <MathLib\Vector.h>
+#include <MathLib\Matrix.h>
+#include "GameObject.h"
 
 enum GameState
 {
@@ -16,16 +19,20 @@ enum GameState
 
 class Main
 {
+	MathLib::Mat4 rootNode;
 	SpriteRenderer* renderer;
 	Texture* face;
 	Texture* container;
+	GameObject player1;
+	GameObject player2;
+
 
 	const GLuint width, height;
 
 public:
 
 	GameState state;
-	GLboolean Keys[1024];
+	bool Keys[1024];
 
 	Main(GLuint width, GLuint height);
 	~Main();
