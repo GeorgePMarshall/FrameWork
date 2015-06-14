@@ -1,6 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#define NUM_OF_LIGHTS 10
+
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -28,6 +30,8 @@ public:
 	void SetVec4(const char* a_name, const MathLib::vec4 &a_value);
 	void SetVec3(const char* a_name, const MathLib::vec3 &a_value);
 	void SetVec2(const char* a_name, const MathLib::vec2 &a_value);
+	void SetFloat(const char* a_name, const float &a_value);
+
 
 	//Use the program
 	void Use();

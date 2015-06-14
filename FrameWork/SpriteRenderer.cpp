@@ -120,9 +120,13 @@ void SpriteRenderer::DrawSprite(Texture* a_texture, GLfloat x, GLfloat y, GLfloa
 
 }
 
-void SpriteRenderer::DrawSpriteMat4(Texture* a_texture, MathLib::Mat4 a_transform, MathLib::Mat4 a_texCoods, MathLib::vec3 a_colour)
+void SpriteRenderer::DrawSprite(Texture* a_texture, MathLib::Vector2 a_position, MathLib::Vector2 a_size, GLfloat a_rotate, MathLib::vec3 a_colour)
 {
+	DrawSprite(a_texture, a_position.x, a_position.y, a_size.x, a_size.y, a_rotate, a_colour);
+}
 
+void SpriteRenderer::DrawSprite(Texture* a_texture, MathLib::Mat4 a_transform, MathLib::Mat4 a_texCoods, MathLib::vec3 a_colour)
+{
 	//set shader to use
 	this->shader->Use();
 
@@ -142,14 +146,78 @@ void SpriteRenderer::DrawSpriteMat4(Texture* a_texture, MathLib::Mat4 a_transfor
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::DrawLight(GLfloat x, GLfloat y)
+void SpriteRenderer::DrawLight(MathLib::vec2 position, int lightID, MathLib::vec3 colour, float constant, float linear, float quadratic)
 {
-	this->shader->SetVec2("lightLocation", MathLib::vec2(x, y));
+	if (lightID < NUM_OF_LIGHTS)
+	{
+		std::string temp("lights[" + std::to_string(lightID) + "].position");
+		this->shader->SetVec2(temp.c_str(), position);
+		
+		temp = "lights[" + std::to_string(lightID) + "].colour";
+		this->shader->SetVec3(temp.c_str(), colour);
+
+		temp = "lights[" + std::to_string(lightID) + "].constant";
+		this->shader->SetFloat(temp.c_str(), constant);
+
+		temp = "lights[" + std::to_string(lightID) + "].linear";
+		this->shader->SetFloat(temp.c_str(), linear);
+
+		temp = "lights[" + std::to_string(lightID) + "].quadratic";
+		this->shader->SetFloat(temp.c_str(), quadratic);
+
+		temp = "lights[" + std::to_string(lightID) + "].initialized";
+		this->shader->SetFloat(temp.c_str(), true);
+		
+		return;
+	}
+	
+	std::cout << "No light at id: " << lightID << std::endl;
 }
 
-void SpriteRenderer::DrawLight2(GLfloat x, GLfloat y)
+void SpriteRenderer::DrawLight(MathLib::Mat4 *transform, int lightID, MathLib::vec3 colour, float constant, float linear, float quadratic)
 {
-	this->shader->SetVec2("lightLocation2", MathLib::vec2(x, y));
+	if (lightID < NUM_OF_LIGHTS)
+	{
+
+		MathLib::vec4 tempVec(1, 1, 1, 1);
+		tempVec = *transform * tempVec;
+		MathLib::vec2 position(tempVec.x, tempVec.y);
+
+		std::string temp("lights[" + std::to_string(lightID) + "].position");
+		this->shader->SetVec2(temp.c_str(), position);
+
+		temp = "lights[" + std::to_string(lightID) + "].colour";
+		this->shader->SetVec3(temp.c_str(), colour);
+
+		temp = "lights[" + std::to_string(lightID) + "].constant";
+		this->shader->SetFloat(temp.c_str(), constant);
+
+		temp = "lights[" + std::to_string(lightID) + "].linear";
+		this->shader->SetFloat(temp.c_str(), linear);
+
+		temp = "lights[" + std::to_string(lightID) + "].quadratic";
+		this->shader->SetFloat(temp.c_str(), quadratic);
+
+		temp = "lights[" + std::to_string(lightID) + "].initialized";
+		this->shader->SetFloat(temp.c_str(), true);
+
+		return;
+	}
+
+	std::cout << "No light at id: " << lightID << std::endl;
+}
+
+void SpriteRenderer::DestroyLight(int lightID)
+{
+	if (lightID < NUM_OF_LIGHTS)
+	{
+		std::string temp("lights[" + std::to_string(lightID) + "].initialized");
+		this->shader->SetFloat(temp.c_str(), false);
+
+		return;
+	}
+
+	std::cout << "No light at id: " << lightID << std::endl;
 }
 
 void* SpriteRenderer::operator new(size_t i)

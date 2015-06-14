@@ -24,7 +24,7 @@ void ScreenResizeCallback(GLFWwindow* window, int width, int height);
 //starting Screen Resolution
 const GLuint WIDTH = 1200, HEIGHT = 720;
 
-GLboolean showFps = GL_TRUE;
+GLboolean showFps = GL_FALSE;
 GLboolean vSync = GL_TRUE;
 
 Main *game;
@@ -36,7 +36,7 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SAMPLES, 16);
 
 	//Create Window
@@ -131,9 +131,7 @@ void KeyCallback(GLFWwindow* a_window, int a_key, int a_scancode, int a_action, 
 		if (a_action == GLFW_PRESS)
 			game->Keys[a_key] = true;
 		else if (a_action == GLFW_RELEASE)
-			game->Keys[a_key] = false;
-
-		
+			game->Keys[a_key] = false; 
 	}
 }
 

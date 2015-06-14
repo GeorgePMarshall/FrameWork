@@ -1,75 +1,96 @@
 #include "Main.h"
 
-GLfloat x = 0.0f, y = 0.0f, speed = 200.0f, movel = 0.0f;
+float speed = 200.0f;
+float time;
 
-MathLib::Vector2 position;
-
-Main::Main(GLuint a_width, GLuint a_height) : width(a_width), height(a_height)
-{
-
-}
-
+Main::Main(GLuint a_width, GLuint a_height) : width(a_width), height(a_height) {}
 
 Main::~Main()
 {
 	delete renderer;
 	delete face;
 	delete container;
+	delete animation;
 }
 
 void Main::Init()
 {
-	face = new Texture("awesomeface.png");
-	container = new Texture("container.jpg");
+	//create sprite renderer
 	renderer = new SpriteRenderer(width, height);
 
+	//create textures
+	face = new Texture("awesomeface.png");
+	container = new Texture("container.jpg");
+	animation = new AnimatedSprite("wizard.png");
+
+	//initialize animated textures
+	animation->Init(4, 24, 12, MathLib::vec2(32, 32));
+
+	//set game object textures
+	playerRoot.SetTexture(animation);
 	player1.SetTexture(face);
 	player2.SetTexture(face);
 
-	player1.SetParent(rootNode);
-	player2.SetParent(player1);
+	//set game object parents
+	playerRoot.SetParent(rootNode);
+	player1.SetParent(playerRoot);
+	player2.SetParent(playerRoot);
 
-	player1.m_position.x = 100;
-	player1.m_position.y = 100;
-	player1.m_scale.x = 1;
-	player1.m_scale.y = 1;
-	player1.m_size.x = 100;
-	player1.m_size.y = 100;
+	//set game objects positions relative to parents
+	playerRoot.position = MathLib::Vector2(width/2, height/2);
+	playerRoot.size = MathLib::Vector2(100, 100);
 
-	player2.m_position.x = 100;
-	player2.m_position.y = 100;
-	player2.m_scale.x = 1;
-	player2.m_scale.y = 1;
-	player2.m_size.x = 100;
-	player2.m_size.y = 100;
+	player1.position = MathLib::Vector2(-100, 0);
+	player1.size = MathLib::Vector2(100, 100);
 
+	player2.position = MathLib::Vector2(100, 0);
+	player2.size = MathLib::Vector2(100, 100);
 }
 
 void Main::ProcessInput(GLfloat dt)
 {
-	player1.m_position.x += speed * dt * Keys[GLFW_KEY_RIGHT];
-	player1.m_position.x -= speed * dt * Keys[GLFW_KEY_LEFT];
-	player1.m_position.y -= speed * dt * Keys[GLFW_KEY_UP];
-	player1.m_position.y += speed * dt * Keys[GLFW_KEY_DOWN];
+	playerRoot.position.x += speed * dt * Keys[GLFW_KEY_RIGHT];
+	playerRoot.position.x -= speed * dt * Keys[GLFW_KEY_LEFT];
+	playerRoot.position.y -= speed * dt * Keys[GLFW_KEY_UP];
+	playerRoot.position.y += speed * dt * Keys[GLFW_KEY_DOWN];
 }
 
 void Main::Update(GLfloat dt)
 {
-	player1.m_rotation += dt * 10;
+	playerRoot.rotation += dt * 100;
+	time += dt;
+	player1.position.x = -200 - sin(time) * 100;
+	player2.position.x = 200 + sin(time) * 100;
+	
+	//Update game objects
+	playerRoot.Update(dt);
 	player1.Update(dt);
 	player2.Update(dt);
 }
 
 void Main::Draw()
 {
-	MathLib::Vector4 temp(1,1,1,1);
-	temp = *player2.GetTransform() * temp;
+	//Draw Lights
+	if ((int)time % 7 < 3)
+		renderer->DestroyLight(0);
+	else
+		renderer->DrawLight(player1.GetTransform(), 0, MathLib::vec3(1.0f, 0.0f, 0.0f), 1.0);
+	
+	if ((int)time % 4 < 2)
+		renderer->DestroyLight(1);
+	else
+		renderer->DrawLight(player2.GetTransform(), 1, MathLib::vec3(0.0f, 1.0f, 0.0f), 1.0);
 
-	renderer->DrawLight(player1.m_position.x + 50, player1.m_position.y + 50);
-	renderer->DrawLight2(temp.x, temp.y);
+	if ((int)time % 5 < 2)
+		renderer->DestroyLight(2);
+	else
+		renderer->DrawLight(playerRoot.GetTransform(), 2, MathLib::vec3(0.0f, 0.0f, 1.0f), 0.7);
+
+	//Draw textures
 	renderer->DrawSprite(container, 0, 0, width, height);
-	//renderer->DrawSprite(face, 0, 0, 100, 100);
+
+	//Draw Game Objects
+	playerRoot.Draw(renderer);
 	player1.Draw(renderer);
 	player2.Draw(renderer);
-
 }

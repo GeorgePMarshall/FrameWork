@@ -23,11 +23,13 @@ class Main
 	SpriteRenderer* renderer;
 	Texture* face;
 	Texture* container;
+	AnimatedSprite* animation;
+	GameObject playerRoot;
 	GameObject player1;
 	GameObject player2;
 
 
-	const GLuint width, height;
+	GLuint width, height;
 
 public:
 

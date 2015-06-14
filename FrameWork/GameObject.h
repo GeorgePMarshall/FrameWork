@@ -8,20 +8,21 @@
 
 class GameObject
 {
-	MathLib::Mat4* m_parentTransform;
-	MathLib::Mat4 m_transform;
+	MathLib::Mat4* parentTransform;
+	MathLib::Mat4 transform;
 	
-	Texture *m_texture;
-	MathLib::Vector3 m_colour;
-	MathLib::Mat4 m_texTransform;
+	Texture* texture;
+	AnimatedSprite* animSprite;
+	MathLib::Vector3 colour;
+	MathLib::Mat4 texTransform;
 
 	void UpdateTransform();
 
 public:
-	MathLib::Vector2 m_position;
-	MathLib::Vector2 m_size;
-	MathLib::Vector2 m_scale;
-	float m_rotation;
+	MathLib::Vector2 position;
+	MathLib::Vector2 size;
+	MathLib::Vector2 scale = MathLib::Vector2(1.0f, 1.0f);
+	float rotation;
 
 	GameObject();
 	~GameObject();
@@ -33,6 +34,7 @@ public:
 	void SetParent(GameObject &parent);
 	void SetParent(MathLib::mat4 &parent);
 	void SetTexture(Texture *texture);
+	void SetTexture(AnimatedSprite *texture);
 	
 
 };

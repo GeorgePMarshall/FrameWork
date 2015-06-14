@@ -1,17 +1,19 @@
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\vc120.pdb
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\vc120.idb
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\game.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\main.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\opengl.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\shader.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\spriterenderer.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\texture.obj
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\debug\framework.ilk
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\debug\framework.exe
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\debug\framework.pdb
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\cl.command.1.tlog
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\cl.read.1.tlog
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\cl.write.1.tlog
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\link.command.1.tlog
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\link.read.1.tlog
-c:\users\george.marshall\documents\visual studio 2013\projects\framework\framework\debug\framework.tlog\link.write.1.tlog
+d:\george\documents\github\trunk\framework\debug\vc120.pdb
+d:\george\documents\github\trunk\framework\debug\vc120.idb
+d:\george\documents\github\trunk\framework\debug\animatedsprite.obj
+d:\george\documents\github\trunk\framework\debug\gameobject.obj
+d:\george\documents\github\trunk\framework\debug\main.obj
+d:\george\documents\github\trunk\framework\debug\opengl.obj
+d:\george\documents\github\trunk\framework\debug\shader.obj
+d:\george\documents\github\trunk\framework\debug\spriterenderer.obj
+d:\george\documents\github\trunk\framework\debug\texture.obj
+d:\george\documents\github\trunk\debug\framework.ilk
+d:\george\documents\github\trunk\debug\framework.exe
+d:\george\documents\github\trunk\debug\framework.pdb
+d:\george\documents\github\trunk\framework\debug\game.obj
+d:\george\documents\github\trunk\framework\debug\framework.tlog\cl.command.1.tlog
+d:\george\documents\github\trunk\framework\debug\framework.tlog\cl.read.1.tlog
+d:\george\documents\github\trunk\framework\debug\framework.tlog\cl.write.1.tlog
+d:\george\documents\github\trunk\framework\debug\framework.tlog\link.command.1.tlog
+d:\george\documents\github\trunk\framework\debug\framework.tlog\link.read.1.tlog
+d:\george\documents\github\trunk\framework\debug\framework.tlog\link.write.1.tlog

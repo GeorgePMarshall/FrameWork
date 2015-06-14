@@ -29,6 +29,8 @@ Shader::Shader(const GLchar* vertexSoucePath, const GLchar* fragmentSourcePath)
 		cout << "Shader files not sucsessfuly read" << endl;
 	}
 
+	fragmentShaderSource.insert(17, "\n#define NUM_OF_LIGHTS " + std::to_string(NUM_OF_LIGHTS) + "\n");
+
 	//create a vertex shader
 	GLuint vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -124,4 +126,10 @@ void Shader::SetVec2(const char* a_name, const MathLib::vec2 &a_value)
 {
 	this->Use();
 	glUniform2f(glGetUniformLocation(this->shaderProgram, a_name), a_value.x, a_value.y);
+}
+
+void Shader::SetFloat(const char* a_name, const float &a_value)
+{
+	this->Use();
+	glUniform1f(glGetUniformLocation(this->shaderProgram, a_name), a_value);
 }
